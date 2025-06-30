@@ -7,9 +7,9 @@ let score = 0;
 const untypedfield = document.getElementById('untyped');
 const typedfield = document.getElementById('typed');
 const wrap = document.getElementById('wrap');
-const start = document.getElementById('start')
-const count = document.getElementById('count')
-const typedcount = document.getElementById('typedcount')
+const start = document.getElementById('start');
+const count = document.getElementById('count');
+const typedcount = document.getElementById('typedcount');
 
 //配列
 const textLists = [
@@ -57,7 +57,7 @@ const keyPress = e =>{
   //正タイプの場合
   //score加算
   score++
-  typedcount.textContent=score
+  typedcount.textContent = score;
   //(typed=)''に(untyped.substring(0,1)=)１文字目が追加される
   typed += untyped.substring(0,1);
   untyped = untyped.substring(1);
@@ -92,12 +92,14 @@ const rankCheck = score =>{
 //ゲームを終了する機能
 const gameOver = id =>{
   clearInterval(id);
-
-  const result = confirm(rankCheck(score));
-  //OKボタンを押すとリロードする
-  if (result == true){
-    window.location.reload();
-  }
+  setTimeout((id) =>{
+    const result = confirm(rankCheck(score));
+    //OKボタンを押すとリロードする
+    if (result == true){
+      window.location.reload();
+    }
+  },10);
+  
 };
 
 //カウントダウンタイマーの機能
@@ -113,8 +115,14 @@ const timer = () =>{
     //カウントが0になったらタイマーを停止する
     if(time <= 0){
       gameOver(id);
+      untyped = 'タイムアップ！';
+      untypedfield.textContent = untyped;
     }
   },1000);
+
+  
+
+
 };
 
 //キーボードのイベント処理
@@ -123,8 +131,6 @@ start.addEventListener('click',() => {
   timer();
   //関数の呼び出し　ランダムなテキストを表示する　
   createText();
-
-
   //「スタート」ボタンを非表示にする
   start.style.display = 'none';
   //キーボード入力時にkeypress関数の呼び出し
